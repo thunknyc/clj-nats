@@ -4,7 +4,9 @@ A Clojure library for NATS.
 
 ## Usage
 
-FIXME
+This library is available on [Clojars](https://clojars.org/thunknyc.clj-nats).
+
+[![Clojars Project](http://clojars.org/thunknyc.clj-nats/latest-version.svg)]
 
 ## License
 
