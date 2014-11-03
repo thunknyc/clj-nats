@@ -8,13 +8,16 @@ This library is available on [Clojars](https://clojars.org/thunknyc.clj-nats).
 
 ![Clojars Project](http://clojars.org/thunknyc.clj-nats/latest-version.svg)
 
-`clj-nats` uses Stuart Sierra's component library. This project is very much a work in progress. Here's an example of typical usage:
+`clj-nats` is very much a work in progress. Here's an example of typical usage:
 
 ```clj
+(require '[com.stuartsierra.component :as component])
+(require '[thunknyc.clj-nats :as nats])
+
 (def system (component/system-map
-             :connection (new-connection "nats://localhost:4222")
+             :connection (nats/new-connection "nats://localhost:4222")
              :subscription (component/using
-                            (new-subscription
+                            (nats/new-subscription
                              "foo"
                              [#(prn (format "Body: %s." (.getBody %)))])
                             [:connection])))
