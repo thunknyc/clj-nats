@@ -32,7 +32,6 @@ This library is available on [Clojars](https://clojars.org/thunknyc.clj-nats).
   (start-system)
   (nats/publish system "foo" "yo") ; "Body: %s." is printed to standard out.
   (stop-system))
-
 ```
 
 ## License
