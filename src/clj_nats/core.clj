@@ -19,7 +19,7 @@
             (assoc c :conn nil))
         c)
       (catch Throwable t
-        (log/warn "Error stopping NAT Connection.")
+        (log/warn "Connection encountered error while stopping.")
         c))))
 
 (defn connection
@@ -61,6 +61,9 @@
       (if subscription
         (do (unsubscribe subscription)
             (assoc c :subscription nil))
+        c)
+      (catch Throwable t
+        (log/warn "Subscription encountered error while stopping.")
         c))))
 
 (defn subscription
