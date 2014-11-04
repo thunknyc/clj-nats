@@ -27,22 +27,22 @@
   [uri]
   (map->Connection {:uri uri}))
 
-(defn publish [connection topic message]
-  (.publish (:conn connection) topic message))
+(defn publish [connection subject message]
+  (.publish (:conn connection) subject message))
 
 (defn new-message-handler [f]
   (proxy [nats.client.MessageHandler] []
     (onMessage [message] (f message))))
 
 (defn subscribe
-  "Subscribe to `topic` with MessageHandler instances constructed from
-  `fns`, a sequence of functions taking one argument. Returns a
+  "Subscribe to `subject` with MessageHandler instances constructed
+  from `fns`, a sequence of functions taking one argument. Returns a
   subscription object that can be closed with `unsubscribe`."
-  [connection topic & fns]
+  [connection subject & fns]
   (->> fns
        (map new-message-handler)
        (into-array nats.client.MessageHandler)
-       (.subscribe (:conn connection) topic)))
+       (.subscribe (:conn connection) subject)))
 
 (defn unsubscribe
   "Close `subscription`, an object returned from `subscribe`. Returns
