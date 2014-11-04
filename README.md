@@ -14,13 +14,16 @@ This library is available on [Clojars](https://clojars.org/thunknyc.clj-nats).
 (require '[com.stuartsierra.component :as component])
 (require '[thunknyc.clj-nats :as nats])
 
-(def system (component/system-map
-             :connection (nats/new-connection "nats://localhost:4222")
-             :subscription (component/using
-                            (nats/new-subscription
-                             "foo"
-                             [#(prn (format "Body: %s." (.getBody %)))])
-                            [:connection])))
+(def system
+  (component/system-map
+   :connection
+   (nats/connection "nats://localhost:4222")
+   :subscription
+   (component/using
+    (nats/subscription
+     "foo"
+     [#(prn (format "Body: %s." (.getBody %)))])
+    [:connection])))
 
 (defn start-system []
   (alter-var-root #'system component/start))

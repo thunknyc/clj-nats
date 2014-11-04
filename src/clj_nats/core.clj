@@ -22,16 +22,10 @@
         (log/warn "Error stopping NAT Connection.")
         c))))
 
-(defn new-connection
+(defn connection
   "Component constructor for NATS connection."
   [uri]
   (map->Connection {:uri uri}))
-
-(defn connection
-  "Freestanding constructor for NATS connection. Invoke `.stop` on
-  returned object to close connection."
-  [uri]
-  (.start (new-connection uri)))
 
 (defn publish [connection topic message]
   (.publish (:conn connection) topic message))
@@ -68,15 +62,10 @@
         (do (unsubscribe subscription)
             (assoc c :subscription nil))))))
 
-(defn new-subscription
+(defn subscription
   "Subscription component constructor. Each element of `fns` is
   evaluated with a single `Message` argument for each matching
   message."
   [topic fns]
   (map->Subscription {:topic topic :fns fns}))
 
-(defn subscription
-  "Subscription freestanding constructor. Invoke `.stop` method on
-  returned object to close."
-  [connection topic & fns]
-  (.start (map->Subscription {:connection connection :topic topic :fns fns})))
