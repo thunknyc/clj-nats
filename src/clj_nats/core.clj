@@ -60,7 +60,8 @@
     (try
       (if subscription
         (do (unsubscribe subscription)
-            (assoc c :subscription nil))))))
+            (assoc c :subscription nil))
+        c))))
 
 (defn subscription
   "Subscription component constructor. Each element of `fns` is
