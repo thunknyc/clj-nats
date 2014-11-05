@@ -7,5 +7,6 @@
                  [org.clojure/tools.logging "0.3.1"]
                  [com.stuartsierra/component "0.2.2"]
                  [com.github.cloudfoundry-community/nats-client "0.5.1"]]
-  :profiles {:dev
-             {:dependencies [[org.slf4j/slf4j-jdk14 "1.7.7"]]}})
+  :profiles
+  {:dev
+   {:dependencies [[org.slf4j/slf4j-jdk14 "1.7.7"]]}})

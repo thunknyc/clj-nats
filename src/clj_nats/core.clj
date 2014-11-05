@@ -1,16 +1,16 @@
 (ns clj-nats.core
   (:require [com.stuartsierra.component :as component]
             [clojure.tools.logging :as log])
-  (:import [nats.client]))
+  (:import [java.util.concurrent TimeUnit]
+           [nats.client MessageHandler NatsConnector]))
 
-(defrecord Connection [uri conn]
+(defrecord Connection [uris conn]
   component/Lifecycle
   (start [c]
     (if-not conn
-      (assoc c :conn
-             (.. (nats.client.NatsConnector.)
-                 (addHost uri)
-                 (connect)))
+      (let [connector (NatsConnector.)]
+        (doseq [u uris] (.addHost connector u))
+        (assoc c :conn (.connect connector)))
       c))
   (stop [c]
     (try
@@ -24,15 +24,27 @@
 
 (defn connection
   "Component constructor for NATS connection."
-  [uri]
-  (map->Connection {:uri uri}))
+  [uris]
+  (map->Connection {:uris uris}))
 
 (defn publish [connection subject message]
   (.publish (:conn connection) subject message))
 
 (defn new-message-handler [f]
-  (proxy [nats.client.MessageHandler] []
+  (proxy [MessageHandler] []
     (onMessage [message] (f message))))
+
+(defn request [connection subject message
+               {:keys [timeout unit max-replies]
+                :or {timeout 1.0
+                     unit TimeUnit/MINUTES
+                     max-replies (int 1)}
+                :as options}
+               & fns]
+  (->> fns
+       (map new-message-handler)
+       (into-array MessageHandler)
+       (.request (:conn connection) subject message timeout unit max-replies)))
 
 (defn subscribe
   "Subscribe to `subject` with MessageHandler instances constructed
@@ -41,7 +53,7 @@
   [connection subject & fns]
   (->> fns
        (map new-message-handler)
-       (into-array nats.client.MessageHandler)
+       (into-array MessageHandler)
        (.subscribe (:conn connection) subject)))
 
 (defn unsubscribe
