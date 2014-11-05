@@ -17,7 +17,7 @@ Here's an example of typical usage:
 
 ```clojure
 (require '[clojure.tools.logging :as log])
-(require '[clj-nats.core :refer :all :as nats])
+(require '[clj-nats.core :as nats])
 (require '[com.stuartsierra.component :as component]))
 
 (def system (component/system-map
