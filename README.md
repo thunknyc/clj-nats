@@ -4,9 +4,9 @@ A Clojure library for NATS.
 
 ## Usage
 
-This library is available on [Clojars](https://clojars.org/thunknyc.clj-nats):
+This library is available on [Clojars](https://clojars.org/thunknyc/clj-nats):
 
-![Clojars Project](http://clojars.org/thunknyc.clj-nats/latest-version.svg)
+![Clojars Project](http://clojars.org/thunknyc/clj-nats/latest-version.svg)
 
 `clj-nats` is based on
 [java-nats](https://github.com/cloudfoundry-community/java-nats) and
