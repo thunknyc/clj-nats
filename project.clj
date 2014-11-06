@@ -1,4 +1,4 @@
-(defproject thunknyc.clj-nats "0.1.0-SNAPSHOT"
+(defproject thunknyc.clj-nats "0.1.0"
   :description "A Clojure library for NATS."
   :url "http://github.com/thunknyc/clj-nats"
   :license {:name "Eclipse Public License"
